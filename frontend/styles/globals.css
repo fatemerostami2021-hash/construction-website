@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream-50 text-brown-700 dark:bg-navy dark:text-silver-300;
+    font-family: 'Vazirmatn', system-ui, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold-gradient text-navy px-6 py-3 rounded-lg shadow-gold-glow hover:brightness-110 transition-all font-medium;
+  }
+  .btn-secondary {
+    @apply border border-gold-500 text-gold-600 dark:text-gold-400 px-6 py-3 rounded-lg hover:bg-gold-gradient hover:text-navy transition-all font-medium;
+  }
+  .section-padding {
+    @apply py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+  }
+  .card {
+    @apply bg-white dark:bg-navy-light border border-gold-400/10 dark:border-gold-500/15 rounded-xl shadow-md hover:shadow-gold-glow transition-all p-6;
+  }
+  .admin-card {
+    @apply bg-white dark:bg-navy-light border border-gold-400/15 dark:border-gold-500/20 rounded-2xl p-5;
+  }
+}
