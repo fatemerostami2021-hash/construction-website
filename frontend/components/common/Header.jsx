@@ -202,14 +202,14 @@ export default function Header() {
         )}
       </header>
 
-      {/* نوار دکمه‌های رسانه‌ای */}
+      {/* نوار دکمه‌های رسانه‌ای با لینک */}
       <div className="bg-metallic-dark border-b border-gold-500/20">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
-            <MediaButton icon={<MessageCircle size={16} />} label={t('testimonials')} />
-            <MediaButton icon={<PlayCircle size={16} />} label={t('projectVideos')} />
-            <MediaButton icon={<FolderOpen size={16} />} label={t('virtualTour')} />
-            <MediaButton icon={<Sparkles size={16} />} label={t('animations')} />
+            <MediaButton href={`/${locale}/testimonials`} icon={<MessageCircle size={16} />} label={t('testimonials')} />
+            <MediaButton href={`/${locale}/videos`} icon={<PlayCircle size={16} />} label={t('projectVideos')} />
+            <MediaButton href={`/${locale}/virtual-tour`} icon={<FolderOpen size={16} />} label={t('virtualTour')} />
+            <MediaButton href={`/${locale}/animations`} icon={<Sparkles size={16} />} label={t('animations')} />
           </div>
         </div>
       </div>
@@ -229,11 +229,11 @@ export default function Header() {
   );
 }
 
-function MediaButton({ icon, label }) {
+function MediaButton({ href, icon, label }) {
   return (
-    <button className="flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gold-500/30 bg-navy/40 text-silver-300 hover:border-gold-400 hover:bg-gold-400/5 transition min-h-[40px] sm:min-h-[48px]">
+    <Link href={href} className="flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gold-500/30 bg-navy/40 text-silver-300 hover:border-gold-400 hover:bg-gold-400/5 transition min-h-[40px] sm:min-h-[48px]">
       <span className="text-gold-400 flex-shrink-0">{icon}</span>
       <span className="text-[10px] sm:text-xs md:text-sm font-bold text-gold-300 animate-blink-glow whitespace-nowrap">{label}</span>
-    </button>
+    </Link>
   );
 }
