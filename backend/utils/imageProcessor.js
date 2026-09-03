@@ -1,44 +1,31 @@
-const sharp = require('sharp');
-const path = require('path');
-const fs = require('fs').promises;
-const { v4: uuidv4 } = require('uuid');
+const cloudinary = require('cloudinary').v2;
 
-const processImage = async (inputPath, filename) => {
-  const id = uuidv4();
-  const uploadDir = process.env.UPLOAD_DIR || 'uploads';
-  
-  const sizes = {
-    thumbnail: { width: 300, height: 200, fit: 'cover' },
-    medium: { width: 800, height: 600, fit: 'inside' },
-    large: { width: 1600, height: 1200, fit: 'inside' }
-  };
+const processImage = async (fileBuffer, mimetype, originalName) => {
+  const dataUri = `data:${mimetype};base64,${fileBuffer.toString('base64')}`;
 
-  const results = {};
+  const result = await cloudinary.uploader.upload(dataUri, {
+    folder: 'construction-website',
+    resource_type: 'image',
+  });
 
-  for (const [sizeName, options] of Object.entries(sizes)) {
-    const outputFilename = `${id}_${sizeName}.webp`;
-    const outputPath = path.join(uploadDir, outputFilename);
-    
-    await sharp(inputPath)
-      .resize(options.width, options.height, { fit: options.fit, withoutEnlargement: true })
-      .webp({ quality: 80 })
-      .toFile(outputPath);
-    
-    const metadata = await sharp(outputPath).metadata();
-    results[sizeName] = {
-      url: `/uploads/${outputFilename}`,
-      width: metadata.width,
-      height: metadata.height
-    };
-  }
+  const publicId = result.public_id;
 
-  // Delete original uploaded file
-  await fs.unlink(inputPath);
+  const buildUrl = (width, height, crop) =>
+    cloudinary.url(publicId, {
+      width,
+      height,
+      crop,
+      fetch_format: 'auto',
+      quality: 'auto',
+      secure: true,
+    });
 
   return {
-    id,
-    original: filename,
-    ...results
+    id: publicId,
+    original: originalName,
+    thumbnail: { url: buildUrl(300, 200, 'fill'), width: 300, height: 200 },
+    medium: { url: buildUrl(800, 600, 'limit'), width: 800, height: 600 },
+    large: { url: buildUrl(1600, 1200, 'limit'), width: 1600, height: 1200 },
   };
 };
 
