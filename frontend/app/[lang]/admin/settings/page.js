@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Save, Phone, Mail, MapPin, Globe, Instagram, Linkedin } from 'lucide-react';
@@ -22,7 +23,7 @@ export default function AdminSettings() {
   const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : '';
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/settings')
+    fetch(`${API}/api/settings`)
       .then(r => r.json())
       .then(data => {
         const map = {};
@@ -42,7 +43,7 @@ export default function AdminSettings() {
     try {
       await Promise.all(
         Object.entries(settings).map(([key, value]) =>
-          fetch('http://localhost:5000/api/settings', {
+          fetch(`${API}/api/settings`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ key, value })

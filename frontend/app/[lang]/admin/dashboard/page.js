@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import {
@@ -57,9 +58,9 @@ export default function Dashboard() {
     const headers = { Authorization: `Bearer ${token}` };
 
     Promise.all([
-      fetch('http://localhost:5000/api/projects?limit=100', { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
-      fetch('http://localhost:5000/api/articles?limit=1', { headers }).then(r => r.ok ? r.json() : { totalPages: 0 }).catch(() => ({ totalPages: 0 })),
-      fetch('http://localhost:5000/api/contacts', { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
+      fetch(`${API}/api/projects?limit=100`, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
+      fetch(`${API}/api/articles?limit=1`, { headers }).then(r => r.ok ? r.json() : { totalPages: 0 }).catch(() => ({ totalPages: 0 })),
+      fetch(`${API}/api/contacts`, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
     ]).then(([projectsRes, articlesRes, contactsRes]) => {
       const projectsList = Array.isArray(projectsRes) ? projectsRes : (projectsRes.data || projectsRes.projects || []);
       const contactsList = Array.isArray(contactsRes) ? contactsRes : (contactsRes.data || []);

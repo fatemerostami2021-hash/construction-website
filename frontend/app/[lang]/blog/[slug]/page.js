@@ -1,3 +1,4 @@
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -5,7 +6,7 @@ import { Calendar, User, Eye } from 'lucide-react';
 
 async function getArticle(slug) {
   try {
-    const res = await fetch(`http://localhost:5000/api/articles/${slug}`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/articles/${slug}`, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     return res.json();
   } catch { return null; }

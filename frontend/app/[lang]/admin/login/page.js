@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
 
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 export default function AdminLogin() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [showPass, setShowPass] = useState(false);
@@ -17,7 +19,7 @@ export default function AdminLogin() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${API}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

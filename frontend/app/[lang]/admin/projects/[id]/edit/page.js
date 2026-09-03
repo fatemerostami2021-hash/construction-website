@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useLocale } from 'next-intl';
@@ -36,7 +37,7 @@ export default function EditProjectPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
-    fetch(`http://localhost:5000/api/projects/${id}`, {
+    fetch(`${API}/api/projects/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => { if (!r.ok) throw new Error(); return r.json(); })
@@ -82,7 +83,7 @@ export default function EditProjectPage() {
     data.append('image', file);
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch('http://localhost:5000/api/upload/image', {
+      const res = await fetch(`${API}/api/upload/image`, {
         method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: data
       });
       const result = await res.json();
@@ -127,7 +128,7 @@ export default function EditProjectPage() {
     setSaving(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`http://localhost:5000/api/projects/${id}`, {
+      const res = await fetch(`${API}/api/projects/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(form)

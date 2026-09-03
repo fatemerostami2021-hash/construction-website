@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useLocale } from 'next-intl';
@@ -69,7 +70,7 @@ export default function NewProjectPage() {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch('http://localhost:5000/api/upload/image', {
+      const res = await fetch(`${API}/api/upload/image`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: data
@@ -121,7 +122,7 @@ export default function NewProjectPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch('http://localhost:5000/api/projects', {
+      const res = await fetch(`${API}/api/projects`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

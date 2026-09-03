@@ -1,3 +1,4 @@
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -12,7 +13,7 @@ async function getProjects(searchParams) {
   params.set('published', 'true');
   
   try {
-    const res = await fetch(`http://localhost:5000/api/projects?${params.toString()}`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/projects?${params.toString()}`, { next: { revalidate: 60 } });
     if (!res.ok) return { data: [], totalPages: 0 };
     return res.json();
   } catch {

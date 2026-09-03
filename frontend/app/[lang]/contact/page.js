@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
@@ -87,7 +88,7 @@ export default function ContactPage() {
     setLoading(true);
     setStatus(null);
     try {
-      const res = await fetch('http://localhost:5000/api/contacts', {
+      const res = await fetch(`${API}/api/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

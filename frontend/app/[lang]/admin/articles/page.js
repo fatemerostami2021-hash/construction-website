@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -12,7 +13,7 @@ export default function AdminArticlesPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
-    fetch('http://localhost:5000/api/articles?limit=100', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API}/api/articles?limit=100`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => { setArticles(data.data || []); setLoading(false); })
       .catch(() => setLoading(false));
@@ -22,7 +23,7 @@ export default function AdminArticlesPage() {
     if (!confirm('آیا از حذف این مقاله اطمینان دارید؟')) return;
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch(`http://localhost:5000/api/articles/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`${API}/api/articles/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       if (res.ok) setArticles(prev => prev.filter(a => a._id !== id));
       else alert('خطا در حذف');
     } catch { alert('خطا در اتصال'); }

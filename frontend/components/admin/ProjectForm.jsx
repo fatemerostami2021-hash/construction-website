@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Plus, Trash2, Upload, Save, ArrowRight, Calendar, Image as ImageIcon } from 'lucide-react';
 
-const API = 'http://localhost:5000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 function slugify(text) {
   return text

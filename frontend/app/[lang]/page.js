@@ -1,3 +1,4 @@
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
@@ -5,7 +6,7 @@ import { Building2, FileText, Phone, ArrowLeft } from 'lucide-react';
 
 async function getProjects() {
   try {
-    const res = await fetch('http://localhost:5000/api/projects?limit=3&published=true', { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/projects?limit=3&published=true`, { next: { revalidate: 60 } });
     const data = await res.json();
     return data.data || [];
   } catch { return []; }
@@ -13,7 +14,7 @@ async function getProjects() {
 
 async function getArticles() {
   try {
-    const res = await fetch('http://localhost:5000/api/articles?limit=3&published=true', { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/articles?limit=3&published=true`, { next: { revalidate: 60 } });
     const data = await res.json();
     return data.data || [];
   } catch { return []; }

@@ -1,3 +1,4 @@
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, User, Tag, FileText } from 'lucide-react';
@@ -8,7 +9,7 @@ async function getArticles(sp) {
   if (sp.page) p.set('page', sp.page);
   p.set('published', 'true');
   try {
-    const r = await fetch(`http://localhost:5000/api/articles?${p.toString()}`, { next: { revalidate: 60 } });
+    const r = await fetch(`${API}/api/articles?${p.toString()}`, { next: { revalidate: 60 } });
     if (!r.ok) return { data: [], totalPages: 0 };
     return r.json();
   } catch { return { data: [], totalPages: 0 }; }
@@ -16,7 +17,7 @@ async function getArticles(sp) {
 
 async function getCategories() {
   try {
-    const r = await fetch('http://localhost:5000/api/articles?limit=100&published=true', { next: { revalidate: 3600 } });
+    const r = await fetch(`${API}/api/articles?limit=100&published=true`, { next: { revalidate: 3600 } });
     const d = await r.json();
     const a = d.data || [];
     return [...new Set(a.map(x => x.category).filter(Boolean))];

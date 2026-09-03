@@ -1,4 +1,5 @@
 'use client';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -24,7 +25,7 @@ export default function AdminProjectsPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
-    fetch('http://localhost:5000/api/projects?limit=100', {
+    fetch(`${API}/api/projects?limit=100`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -40,7 +41,7 @@ export default function AdminProjectsPage() {
     if (!confirm('آیا از حذف این پروژه اطمینان دارید؟')) return;
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch(`http://localhost:5000/api/projects/${id}`, {
+      const res = await fetch(`${API}/api/projects/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
